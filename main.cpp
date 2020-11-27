@@ -11,6 +11,23 @@
 #include "Stats.h"
 using namespace std;
 
+//
+void talk_to_user(Website *temp_websites, int temp_counter);
+
+//print results to user
+void display_results(Website *temp_websites, int temp_counter){
+	
+	int display_counter = 1;
+	//printing resuts to user
+	cout << endl << "Search Results: " << endl;
+	for (int i = 0; i < temp_counter; i++){
+		cout << display_counter++ << ". " << temp_websites[i].get_url() << endl;
+	}
+}
+
+
+
+
 void calculate_normalized_rank(Website *temp_websites, Stats my_stats, int counter){
 	for (int i = 0;i < counter; i++){
 		float this_rank;
@@ -355,9 +372,9 @@ int main() {
 	
 		
 		
-
-	cout << "Enter search query: " << endl;
-						string search;
+	cout << "Welcome!" << endl;
+	cout << "What would you like to search about?" << endl;
+	string search;
 					
    std::getline(std::cin, search);
   int sign= Search_Signal_Remover(search);
@@ -375,9 +392,10 @@ calculate_PageRank(container, names.size(), my_graph);
 //getting results websites in an array
 Website *temp_websites = new Website[4];
 int temp_counter = 0;
-for (int i = 0; i < available_pages.size(); i++){
-	for (int j = 0; j < names.size(); j++){
-		if (available_pages[i] == container[j]->get_url()){
+for (int i = 0; i < names.size(); i++){
+	for (int j = 0; j < available_pages.size(); j++){
+		if (available_pages[j] == container[i]->get_url()){
+		
 			temp_websites[temp_counter] = *(container[i]);
 			temp_counter++;
 			}	
@@ -385,9 +403,9 @@ for (int i = 0; i < available_pages.size(); i++){
 }
 //sorting them.
 
-insertion_sort(temp_websites, names.size());
+insertion_sort(temp_websites, temp_counter);
 
-reverseArray(temp_websites, names.size());
+reverseArray(temp_websites, temp_counter);
 
 //set min and max rank in the stats object
 Stats my_stats;
@@ -401,28 +419,27 @@ calculate_normalized_rank(temp_websites, my_stats, temp_counter);
 
 
 //calculate score
+
 for (int i = 0; i < temp_counter; i++){
 	temp_websites[i].calculate_score();
 
 }
 
+//display_results
+display_results(temp_websites, temp_counter);
 
-//printing resuts to user
-
-for (int i = 0; i < temp_counter; i++){
-	cout << temp_websites[i].get_url() << endl;
-}
-
-
-
+//talk to user
+talk_to_user(temp_websites, temp_counter);
 
 /*
+cout << endl << endl;
 for(int i=0;i <available_pages.size(); i++){
 
     cout<< available_pages[i]<<endl;
     
 }
 */
+
 
 
 
@@ -463,4 +480,69 @@ for(int i=0;i <available_pages.size(); i++){
 
 	
 	
+}
+
+
+
+
+//after main
+//talk to user
+void talk_to_user(Website *temp_websites, int temp_counter){
+cout << endl <<"You can either: " << endl;
+cout << "1. Choose a webpage to open" << endl;
+cout << "2. Exit" << endl;
+
+cout << endl << "Type your choice: ";
+int choice;
+cin >> choice;
+
+switch(choice){
+	case (1):
+		cout << endl << "Type the number of the webpage you want to open" << endl;
+		cout << "Type your choice: ";
+		int page_choice;
+		cin  >> page_choice;
+		switch(page_choice){
+			case (1):
+				cout << endl << "You are now viewing " << temp_websites[page_choice - 1].get_url() << endl;
+				
+				cout << "Would you like to: " << endl;
+				cout << "1. Back to search results" << endl;
+				cout << "2. New Search" << endl;
+				cout << "3. Exit" << endl;
+				int choice2;
+				cout << endl << "Type your choice: ";
+				cin >> choice2;
+				switch(choice2){
+					case (1):
+						display_results(temp_websites, temp_counter);
+						talk_to_user(temp_websites, temp_counter);
+						break;
+					case (2):
+						main();
+						break;
+					case (3):
+						cout << "Extiing ...";
+						exit(0);
+						break;
+				}
+				break;
+			case (2):
+				cout << "You are now viewing " << temp_websites[page_choice - 1].get_url() << endl;
+				break;
+			case (3):
+				cout << "You are now viewing " << temp_websites[page_choice - 1].get_url() << endl;
+				break;
+		}
+		
+		break;
+	case (2):
+		cout << "Exiting ... " << endl;
+		exit(0);
+		break;
+	default:
+		cout << "Wrong Input" << endl;
+		break;
+		
+}
 }
