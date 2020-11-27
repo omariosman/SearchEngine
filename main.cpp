@@ -21,24 +21,25 @@ void calculate_normalized_rank(Website *temp_websites, Stats my_stats, int count
 
 	}
 }
+
 void insertion_sort(Website* arr, int n)  
 {  
     float key;
     int i, j;  
     for (i = 1; i < n; i++) 
     {  
-        key = arr[i].get_rank();  
+        key = arr[i].get_normalized_rank();  
         j = i - 1;  
   
       do {
           
-          if (j >= 0 && arr[j].get_rank() > key){
+          if (j >= 0 && arr[j].get_normalized_rank() > key){
             arr[j + 1] = arr[j];  
             j = j - 1;  
         }
-      } while(j >= 0 && arr[j].get_rank() > key);
+      } while(j >= 0 && arr[j].get_normalized_rank() > key);
    
-        arr[j + 1].set_rank(key);  
+        arr[j + 1].set_normalized_rank(key);  
     }  
    
 } 
@@ -283,11 +284,7 @@ int main() {
 			cerr << "\n";
 		  }
 		  
-		  for (int i = 0; i < data.size(); i++){
-		  	for (int j = 0; j < data[i].size(); j++){
-		  		cout << "data: " << data[i][j] << endl;
-		  	}
-		  }
+		
 		  
 	/*** END READ keywords file ***/
   	
@@ -369,19 +366,6 @@ vector<string> query = to_vector(search);
 
 
 vector<string> available_pages=Unsorted_Results(query,data, sign );
-/*
-//printing page rank
-cout << "Before" << endl;
-for (int i = 0; i < names.size(); i++){
-	cout << container[i]->get_rank() << endl;
-}
-
-calculate_PageRank(container, names.size(), my_graph);
-cout << "After" << endl;
-for (int i = 0; i < names.size(); i++){
-	cout << container[i]->get_rank() << endl;
-}
-*/
 
 
 //my_graph.print();
@@ -424,20 +408,22 @@ for (int i = 0; i < temp_counter; i++){
 
 
 //printing resuts to user
-/*
+
 for (int i = 0; i < temp_counter; i++){
 	cout << temp_websites[i].get_url() << endl;
 }
 
 
-*/
 
 
+/*
 for(int i=0;i <available_pages.size(); i++){
 
     cout<< available_pages[i]<<endl;
     
 }
+*/
+
 
 
 
