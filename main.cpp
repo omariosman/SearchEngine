@@ -10,6 +10,28 @@
 #include "Website.h"
 using namespace std;
 
+void calculate_PageRank(Website **container, int total_numbers, Graph my_graph){
+
+	float current_rank = 0.0;
+	for (int i = 0; i < total_numbers; i++){
+		container[i]->set_rank(1.0/total_numbers);
+	}
+		
+	
+	for (int i = 1; i < total_numbers; i++){
+	current_rank=0;
+		float previous_rank = container[i-1]->get_rank(); 
+		vector <int> temp_vector = my_graph.getIncomingNodes(container[i-1]->get_key());
+		if (!temp_vector.empty()) {
+			for (int j = 0; j < temp_vector.size(); j++){
+				int out_nodes = my_graph.getNumberOfOutgoingEdges(temp_vector[j]);
+				current_rank += (previous_rank / out_nodes);
+				container[i-1]->set_rank(current_rank);
+			}
+		}
+	}
+	
+}
 
 vector<string> Unsorted_Results(vector<string> query, vector<vector<string>> all_data, int sign){
     
@@ -35,7 +57,7 @@ vector<string> Unsorted_Results(vector<string> query, vector<vector<string>> all
                 result.pop_back();
             }}}}}
       
-//std::find(all_data[j].begin(), all_data[j].end(),query[k])!=all_data[j].end()
+
  if(sign=10){ //or logic
         
         for (int j=0; j<all_data.size(); j++){
@@ -46,11 +68,6 @@ vector<string> Unsorted_Results(vector<string> query, vector<vector<string>> all
                 result.push_back(all_data[j][0]);
             }
             }}}}
-      
-
-
-
-
 
  
     result.erase( unique( result.begin(), result.end() ), result.end() );
@@ -144,6 +161,33 @@ printVector1D(std::vector<string> my_vector){
 	}
 }
 */
+
+/*
+void take_user_input(vector <vector <string>>data){
+					string search;
+					
+   std::getline(std::cin, search);
+  int sign= Search_Signal_Remover(search);
+ 
+vector<string> query = to_vector(search);
+
+
+
+cout << "last";
+vector<string> available_pages=Unsorted_Results(query,data, sign );
+
+
+
+
+for(int i=0;i <available_pages.size(); i++){
+    cout << "there";
+    cout<< available_pages[i]<<endl;
+    
+}
+}
+*/
+
+
 int main() {
 
 
@@ -275,6 +319,7 @@ int main() {
 			container[i]->set_url(IdToName[i]);
 			container[i]->set_key(websites2[IdToName[i]]);
 			container[i]->set_impression(impressions_map[IdToName[i]]);
+			container[i]->set_rank(0);
 			/* Loop to get keywords vector of the website */
 			
 	    	for (int j = 0; j < data.size(); j++){
@@ -296,16 +341,6 @@ int main() {
 	}
 	*/
 	
-	
-	
-	
-	
-	
-
- 
-				
-		
-		
 		
 		
 	
@@ -326,7 +361,9 @@ int main() {
 	switch (choice) {
 		case(1):
 			//dsipalying urls
-			display_urls(names.size(), container);
+			
+			take_user_input(data);
+
 			
 			
 		
@@ -338,49 +375,41 @@ int main() {
 			cout << "Wrong Input";
 	}
 	*/
-	
-	string search;
+	cout << "Enter search query: " << endl;
+						string search;
+					
    std::getline(std::cin, search);
   int sign= Search_Signal_Remover(search);
  
-vector<string> query= to_vector(search);
-
-
-
+vector<string> query = to_vector(search);
 
 
 vector<string> available_pages=Unsorted_Results(query,data, sign );
 
+//printing page rank
+cout << "Before" << endl;
+for (int i = 0; i < names.size(); i++){
+	cout << container[i]->get_rank() << endl;
+}
 
-
-
-for(int i=0;i <available_pages.size(); i++){
-    
-    cout<< available_pages[i]<<endl;
-    
+calculate_PageRank(container, names.size(), my_graph);
+cout << "After" << endl;
+for (int i = 0; i < names.size(); i++){
+	cout << container[i]->get_rank() << endl;
 }
 
 
+
+//my_graph.print();
+
+calculate_PageRank(container, names.size(), my_graph);
+for(int i=0;i <available_pages.size(); i++){
+
+    cout<< available_pages[i]<<endl;
+    
+}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 }
