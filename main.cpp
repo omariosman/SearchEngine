@@ -11,7 +11,7 @@
 #include "Stats.h"
 using namespace std;
 
-//
+//talk to user declaration before definition to use it before and after main function freely
 void talk_to_user(Website *temp_websites, int temp_counter);
 
 //print results to user
@@ -24,8 +24,6 @@ void display_results(Website *temp_websites, int temp_counter){
 		cout << display_counter++ << ". " << temp_websites[i].get_url() << endl;
 	}
 }
-
-
 
 
 void calculate_normalized_rank(Website *temp_websites, Stats my_stats, int counter){
@@ -108,7 +106,7 @@ vector<string> Unsorted_Results(vector<string> query, vector<vector<string>> all
    vector<string>::iterator qit;
     int and_count=0;
     
-    if(sign=20){ //and logic
+    if(sign=20){
         
         for (int j=0; j<all_data.size(); j++){
         for (int i=0;i<all_data[j].size(); i++){
@@ -123,7 +121,7 @@ vector<string> Unsorted_Results(vector<string> query, vector<vector<string>> all
             }}}}}
       
 
- if(sign=10){ //or logic
+ if(sign=10){ 
         
         for (int j=0; j<all_data.size(); j++){
         for (int i=0;i<all_data[j].size(); i++){
@@ -165,7 +163,7 @@ int Search_Signal_Remover(string &search){
  
  while ((pos  = search.find(OR) )!= std::string::npos)
     {
-        // If found then erase it from string
+
         search.erase(pos, OR.length());
     }
  
@@ -179,7 +177,7 @@ int Search_Signal_Remover(string &search){
     
     while ((pos  = search.find(AND) )!= std::string::npos)
     {
-        // If found then erase it from string
+
         search.erase(pos, AND.length());
     }
  
@@ -195,7 +193,7 @@ int Search_Signal_Remover(string &search){
     
    while ((pos  = search.find(QUOT) )!= std::string::npos)
     {
-        // If found then erase it from string
+
         search.erase(pos, 1);
     }
     
@@ -307,10 +305,6 @@ int main() {
   	
 
 	
-	
-	
-	
-	
 	/*** START READ website names ***/
 		 vector <string> names;
   		ifstream namesFile( "websites_names2.csv" );
@@ -363,13 +357,6 @@ int main() {
 	
 	}
 	
-	//printing website informtion.
-	/*
-	for (int i = 0; i < names.size(); i++){
-		container[i]->printInfo();
-	}
-	*/
-	
 		
 		
 	cout << "Welcome!" << endl;
@@ -385,7 +372,6 @@ vector<string> query = to_vector(search);
 vector<string> available_pages=Unsorted_Results(query,data, sign );
 
 
-//my_graph.print();
 
 calculate_PageRank(container, names.size(), my_graph);
 
@@ -430,55 +416,6 @@ display_results(temp_websites, temp_counter);
 
 //talk to user
 talk_to_user(temp_websites, temp_counter);
-
-/*
-cout << endl << endl;
-for(int i=0;i <available_pages.size(); i++){
-
-    cout<< available_pages[i]<<endl;
-    
-}
-*/
-
-
-
-
-
-	
-	/*
-
-		for (auto itr = IdToName.begin(); itr != IdToName.end(); ++itr) {
-	
-			cout << itr->first << "  " << itr->second;
-		cout << endl;
-		}
-	*/
-	/*
-	cout << "What would you like to do?" << endl;
-	cout << "1. New Search" << endl;
-	cout << "2. Exit" << endl;
-	int choice;
-	cin >> choice;
-	switch (choice) {
-		case(1):
-			//dsipalying urls
-			
-			take_user_input(data);
-
-			
-			
-		
-			break;
-		case (2):
-			exit(0);
-			break;
-		default:
-			cout << "Wrong Input";
-	}
-	*/
-	
-
-	
 	
 }
 
