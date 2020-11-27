@@ -8,9 +8,20 @@
 #include<stdio.h>
 #include "Graph.h"
 #include "Website.h"
+#include "Stats.h"
 using namespace std;
 
-
+void calculate_normalized_rank(Website **container, Stats my_stats, int counter){
+	for (int i = 0;i < counter; i++){
+		float this_rank;
+		cout << "max: " << my_stats.get_max() << endl;
+		cout << "min: " << my_stats.get_min() << endl;
+		float numerator = container[i]->get_rank() - my_stats.get_min();
+		float denominator = my_stats.get_max() - my_stats.get_min();
+		this_rank = numerator / denominator;
+		container[i]->set_normalized_rank(this_rank);
+	}
+}
 void insertion_sort(Website* arr, int n)  
 {  
     float key;
@@ -458,13 +469,33 @@ insertion_sort(temp_websites, names.size());
 
 reverseArray(temp_websites, names.size());
 
+//set min and max rank in the stats object
+Stats my_stats;
+
+my_stats.set_max(temp_websites[0].get_rank());
+my_stats.set_min(temp_websites[temp_counter-1].get_rank());
+
+//calculate normalized rank
+for (int i = 0; i < names.size(); i++){
+	cout << container[i]->get_normalized_rank() << endl;
+}
+
+calculate_normalized_rank(container, my_stats, names.size());
+
 //printing resuts to user
+/*
 for (int i = 0; i < temp_counter; i++){
 	cout << temp_websites[i].get_url() << endl;
+}
+*/
+
+for (int i = 0; i < names.size(); i++){
+	cout << container[i]->get_normalized_rank() << endl;
 }
 
 
 /*
+
 for(int i=0;i <available_pages.size(); i++){
 
     cout<< available_pages[i]<<endl;
