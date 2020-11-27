@@ -9,6 +9,126 @@
 #include "Graph.h"
 #include "Website.h"
 using namespace std;
+
+
+vector<string> Unsorted_Results(vector<string> query, vector<vector<string>> all_data, int sign){
+    
+    vector<string> result;
+    
+    vector<vector<string> >::iterator col;
+    vector<string>::iterator row;
+    
+   vector<string>::iterator qit;
+    int and_count=0;
+    
+    if(sign=20){ //and logic
+        
+        for (int j=0; j<all_data.size(); j++){
+        for (int i=0;i<all_data[j].size(); i++){
+        
+        for (int k=0;k<query.size();k++){
+            if (std::find(query.begin(), query.end(),query[k])!=query.end()) {
+                result.push_back(all_data[j][i]);
+                and_count++;
+            }
+            if(and_count!=query.size()){
+                result.pop_back();
+            }}}}}
+      
+//std::find(all_data[j].begin(), all_data[j].end(),query[k])!=all_data[j].end()
+ if(sign=10){ //or logic
+        
+        for (int j=0; j<all_data.size(); j++){
+        for (int i=0;i<all_data[j].size(); i++){
+        
+        for (int k=0;k<query.size();k++){
+            if (query[k]==all_data[j][i]) {
+                result.push_back(all_data[j][0]);
+            }
+            }}}}
+      
+
+
+
+
+
+ 
+    result.erase( unique( result.begin(), result.end() ), result.end() );
+    return result;
+}
+
+vector<string> to_vector(string search){
+string s =search; 
+vector<std::string> result; 
+istringstream iss(s); 
+for(std::string s; iss >> s; ) 
+    result.push_back(s);
+
+    
+    return result;
+}
+
+int Search_Signal_Remover(string &search){
+   
+    int sign=0;
+    string AND="AND";
+    string OR="OR";
+    char QUOT='"'; 
+    size_t pos = std::string::npos;
+  
+  
+  if (search.find("OR") != std::string::npos) {
+    sign=10;
+ 
+ 
+ while ((pos  = search.find(OR) )!= std::string::npos)
+    {
+        // If found then erase it from string
+        search.erase(pos, OR.length());
+    }
+ 
+ 
+}
+    
+    
+    
+   else if (search.find("AND") != std::string::npos) {
+    sign=20;
+    
+    while ((pos  = search.find(AND) )!= std::string::npos)
+    {
+        // If found then erase it from string
+        search.erase(pos, AND.length());
+    }
+ 
+    
+    
+    
+}
+    
+    
+     else if (search.find(QUOT) != std::string::npos) {
+    sign=30;
+    
+    
+   while ((pos  = search.find(QUOT) )!= std::string::npos)
+    {
+        // If found then erase it from string
+        search.erase(pos, 1);
+    }
+    
+}
+    
+    return sign;
+    
+}
+
+void display_urls(int n, Website **container){
+	for (int i = 0; i < n; i++){
+		cout <<i+1 << ". " << container[i]->get_url() << endl;
+	}
+}
+
 /*
 printVector2D(std::vector <std::vector<string>> data){
 		    	for (int i = 0; i < data.size(); i++){
@@ -170,21 +290,17 @@ int main() {
 	}
 	
 	//printing website informtion.
+	/*
 	for (int i = 0; i < names.size(); i++){
 		container[i]->printInfo();
 	}
-	
-	/*
-	for (int i = 0; i < names.size(); i++){
-		container[i].set_url();
-	}
 	*/
-	/*** END READ website names ***/
 	
-
- /**** CREATING OBJECTS *****/
- 
-
+	
+	
+	
+	
+	
 
  
 				
@@ -201,6 +317,70 @@ int main() {
 		cout << endl;
 		}
 	*/
+	/*
+	cout << "What would you like to do?" << endl;
+	cout << "1. New Search" << endl;
+	cout << "2. Exit" << endl;
+	int choice;
+	cin >> choice;
+	switch (choice) {
+		case(1):
+			//dsipalying urls
+			display_urls(names.size(), container);
+			
+			
+		
+			break;
+		case (2):
+			exit(0);
+			break;
+		default:
+			cout << "Wrong Input";
+	}
+	*/
+	
+	string search;
+   std::getline(std::cin, search);
+  int sign= Search_Signal_Remover(search);
+ 
+vector<string> query= to_vector(search);
+
+
+
+
+
+vector<string> available_pages=Unsorted_Results(query,data, sign );
+
+
+
+
+for(int i=0;i <available_pages.size(); i++){
+    
+    cout<< available_pages[i]<<endl;
+    
+}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }
