@@ -10,6 +10,43 @@
 #include "Website.h"
 using namespace std;
 
+
+void insertion_sort(Website* arr, int n)  
+{  
+    float key;
+    int i, j;  
+    for (i = 1; i < n; i++) 
+    {  
+        key = arr[i].get_rank();  
+        j = i - 1;  
+  
+      do {
+          
+          if (j >= 0 && arr[j].get_rank() > key){
+            arr[j + 1] = arr[j];  
+            j = j - 1;  
+        }
+      } while(j >= 0 && arr[j].get_rank() > key);
+   
+        arr[j + 1].set_rank(key);  
+    }  
+   
+} 
+void reverseArray(Website *myArr, int n){
+    Website *tempArr;
+    tempArr = new Website[n];
+    int k = n - 1;
+    for (int i = 0; i < n; i++){
+        tempArr[i] = myArr[k];
+        k--;
+    }
+    
+    for (int i = 0; i < n; i++){
+        myArr[i] = tempArr[i];
+    }
+}
+
+
 void calculate_PageRank(Website **container, int total_numbers, Graph my_graph){
 
 	float current_rank = 0.0;
@@ -185,7 +222,7 @@ for(int i=0;i <available_pages.size(); i++){
     
 }
 }
-*/
+ */
 
 
 int main() {
@@ -385,7 +422,7 @@ vector<string> query = to_vector(search);
 
 
 vector<string> available_pages=Unsorted_Results(query,data, sign );
-
+/*
 //printing page rank
 cout << "Before" << endl;
 for (int i = 0; i < names.size(); i++){
@@ -397,17 +434,43 @@ cout << "After" << endl;
 for (int i = 0; i < names.size(); i++){
 	cout << container[i]->get_rank() << endl;
 }
-
+*/
 
 
 //my_graph.print();
 
 calculate_PageRank(container, names.size(), my_graph);
+
+//getting results websites in an array
+Website *temp_websites = new Website[4];
+int temp_counter = 0;
+for (int i = 0; i < available_pages.size(); i++){
+	for (int j = 0; j < names.size(); j++){
+		if (available_pages[i] == container[j]->get_url()){
+			temp_websites[temp_counter] = *(container[i]);
+			temp_counter++;
+			}	
+	}
+}
+//sorting them
+
+insertion_sort(temp_websites, names.size());
+
+reverseArray(temp_websites, names.size());
+
+//printing resuts to user
+for (int i = 0; i < temp_counter; i++){
+	cout << temp_websites[i].get_url() << endl;
+}
+
+
+/*
 for(int i=0;i <available_pages.size(); i++){
 
     cout<< available_pages[i]<<endl;
     
 }
+*/
 	
 
 	
