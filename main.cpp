@@ -11,15 +11,14 @@
 #include "Stats.h"
 using namespace std;
 
-void calculate_normalized_rank(Website **container, Stats my_stats, int counter){
+void calculate_normalized_rank(Website *temp_websites, Stats my_stats, int counter){
 	for (int i = 0;i < counter; i++){
 		float this_rank;
-		cout << "max: " << my_stats.get_max() << endl;
-		cout << "min: " << my_stats.get_min() << endl;
-		float numerator = container[i]->get_rank() - my_stats.get_min();
+		float numerator = temp_websites[i].get_rank() - my_stats.get_min();
 		float denominator = my_stats.get_max() - my_stats.get_min();
 		this_rank = numerator / denominator;
-		container[i]->set_normalized_rank(this_rank);
+		temp_websites[i].set_normalized_rank(this_rank);
+
 	}
 }
 void insertion_sort(Website* arr, int n)  
@@ -194,46 +193,8 @@ void display_urls(int n, Website **container){
 	}
 }
 
-/*
-printVector2D(std::vector <std::vector<string>> data){
-		    	for (int i = 0; i < data.size(); i++){
-  	
-  		for (int j = 0; j < data[i].size(); j++){
-  			cout << data[i][j] << endl;
-  		} 	
-	}
-}
-printVector1D(std::vector<string> my_vector){
-	for (int i = 0; i < my_vector.size(); i++){
-		cout << my_vector[i] << endl;
-	}
-}
-*/
-
-/*
-void take_user_input(vector <vector <string>>data){
-					string search;
-					
-   std::getline(std::cin, search);
-  int sign= Search_Signal_Remover(search);
- 
-vector<string> query = to_vector(search);
 
 
-
-cout << "last";
-vector<string> available_pages=Unsorted_Results(query,data, sign );
-
-
-
-
-for(int i=0;i <available_pages.size(); i++){
-    cout << "there";
-    cout<< available_pages[i]<<endl;
-    
-}
-}
- */
 
 
 int main() {
@@ -322,6 +283,12 @@ int main() {
 			cerr << "\n";
 		  }
 		  
+		  for (int i = 0; i < data.size(); i++){
+		  	for (int j = 0; j < data[i].size(); j++){
+		  		cout << "data: " << data[i][j] << endl;
+		  	}
+		  }
+		  
 	/*** END READ keywords file ***/
   	
 
@@ -391,38 +358,7 @@ int main() {
 	
 		
 		
-	
-	/*
 
-		for (auto itr = IdToName.begin(); itr != IdToName.end(); ++itr) {
-	
-			cout << itr->first << "  " << itr->second;
-		cout << endl;
-		}
-	*/
-	/*
-	cout << "What would you like to do?" << endl;
-	cout << "1. New Search" << endl;
-	cout << "2. Exit" << endl;
-	int choice;
-	cin >> choice;
-	switch (choice) {
-		case(1):
-			//dsipalying urls
-			
-			take_user_input(data);
-
-			
-			
-		
-			break;
-		case (2):
-			exit(0);
-			break;
-		default:
-			cout << "Wrong Input";
-	}
-	*/
 	cout << "Enter search query: " << endl;
 						string search;
 					
@@ -463,7 +399,7 @@ for (int i = 0; i < available_pages.size(); i++){
 			}	
 	}
 }
-//sorting them
+//sorting them.
 
 insertion_sort(temp_websites, names.size());
 
@@ -476,32 +412,67 @@ my_stats.set_max(temp_websites[0].get_rank());
 my_stats.set_min(temp_websites[temp_counter-1].get_rank());
 
 //calculate normalized rank
-for (int i = 0; i < names.size(); i++){
-	cout << container[i]->get_normalized_rank() << endl;
+
+calculate_normalized_rank(temp_websites, my_stats, temp_counter);
+
+
+//calculate score
+for (int i = 0; i < temp_counter; i++){
+	temp_websites[i].calculate_score();
+
 }
 
-calculate_normalized_rank(container, my_stats, names.size());
 
 //printing resuts to user
 /*
 for (int i = 0; i < temp_counter; i++){
 	cout << temp_websites[i].get_url() << endl;
 }
+
+
 */
 
-for (int i = 0; i < names.size(); i++){
-	cout << container[i]->get_normalized_rank() << endl;
-}
-
-
-/*
 
 for(int i=0;i <available_pages.size(); i++){
 
     cout<< available_pages[i]<<endl;
     
 }
-*/
+
+
+
+	
+	/*
+
+		for (auto itr = IdToName.begin(); itr != IdToName.end(); ++itr) {
+	
+			cout << itr->first << "  " << itr->second;
+		cout << endl;
+		}
+	*/
+	/*
+	cout << "What would you like to do?" << endl;
+	cout << "1. New Search" << endl;
+	cout << "2. Exit" << endl;
+	int choice;
+	cin >> choice;
+	switch (choice) {
+		case(1):
+			//dsipalying urls
+			
+			take_user_input(data);
+
+			
+			
+		
+			break;
+		case (2):
+			exit(0);
+			break;
+		default:
+			cout << "Wrong Input";
+	}
+	*/
 	
 
 	
