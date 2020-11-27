@@ -12,7 +12,7 @@
 using namespace std;
 
 //talk to user declaration before definition to use it before and after main function freely
-void talk_to_user(Website *temp_websites, int temp_counter);
+void talk_to_user(Website *temp_websites, int temp_counter, int argC, char **argv);
 
 //print results to user
 void display_results(Website *temp_websites, int temp_counter){
@@ -213,7 +213,7 @@ void display_urls(int n, Website **container){
 
 
 
-int main() {
+int main(int argC, char **argv) {
 
 
 	map <string, int> websites2; 
@@ -236,7 +236,7 @@ int main() {
 	string line1, line2;
 	//building the graph
 	ifstream myFile;
-	myFile.open("web_graph.csv");
+	myFile.open(argv[1]); //web_graph.csv
 		while (myFile.good()) {
 		
 		getline(myFile, line1,',');
@@ -251,7 +251,7 @@ int main() {
 	string full_line;
 	map <string , int> impressions_map;
 	ifstream impressionFile;
-	impressionFile.open("impressions.csv");
+	impressionFile.open(argv[2]); //impressions
 		while(impressionFile.good()) {
 			getline(impressionFile, full_line);
 			stringstream mystream(full_line);
@@ -260,12 +260,6 @@ int main() {
 			if (line1 == "") break;
 			getline(mystream, line2, ',');
 		
-		
-			//stringstream my_stream(line2); 
-  
-    
-    		//int line2_num = 0; 
-    		//my_stream >> line2_num; 
 			impressions_map[line1] = stoi(line2);
 			
 		}
@@ -273,7 +267,7 @@ int main() {
 		
 		/*** START READ keywords file ***/
 		 vector <vector <string>> data;
-  		ifstream keywordFile( "keywords.csv" );
+  		ifstream keywordFile(argv[3]); //keywords
 
 
 
@@ -307,7 +301,7 @@ int main() {
 	
 	/*** START READ website names ***/
 		 vector <string> names;
-  		ifstream namesFile( "websites_names2.csv" );
+  		ifstream namesFile("websites_names2.csv"); //names2 backup support
 
 
 
@@ -380,8 +374,7 @@ Website *temp_websites = new Website[4];
 int temp_counter = 0;
 for (int i = 0; i < names.size(); i++){
 	for (int j = 0; j < available_pages.size(); j++){
-		if (available_pages[j] == container[i]->get_url()){
-		
+		if (available_pages[j] == container[i]->get_url()){	
 			temp_websites[temp_counter] = *(container[i]);
 			temp_counter++;
 			}	
@@ -415,16 +408,18 @@ for (int i = 0; i < temp_counter; i++){
 display_results(temp_websites, temp_counter);
 
 //talk to user
-talk_to_user(temp_websites, temp_counter);
+talk_to_user(temp_websites, temp_counter, argC, argv);
 	
 }
 
+
+/****************** END of Main() Function *******************/
 
 
 
 //after main
 //talk to user
-void talk_to_user(Website *temp_websites, int temp_counter){
+void talk_to_user(Website *temp_websites, int temp_counter, int argC, char**argv){
 cout << endl <<"You can either: " << endl;
 cout << "1. Choose a webpage to open" << endl;
 cout << "2. Exit" << endl;
@@ -453,13 +448,13 @@ switch(choice){
 				switch(choice2){
 					case (1):
 						display_results(temp_websites, temp_counter);
-						talk_to_user(temp_websites, temp_counter);
+						talk_to_user(temp_websites, temp_counter, argC, argv);
 						break;
 					case (2):
-						main();
+						main(argC, argv);
 						break;
 					case (3):
-						cout << "Extiing ...";
+						cout << "Extiing ..." << endl;
 						exit(0);
 						break;
 				}
